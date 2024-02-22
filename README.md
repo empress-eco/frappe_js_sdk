@@ -1,378 +1,75 @@
-# frappe-js-sdk
+# Empress JS SDK: The Ultimate Bridge to Framework Backend
+![Empress JS SDK Logo](https://grow.empress.eco/uploads/default/original/2X/1/1f1e1044d3864269d2a613577edb9763890422ab.png
 
-TypeScript/JavaScript library for a [Frappe Framework](https://frappeframework.com) backend.
+Welcome to the Empress JS SDK, a robust TypeScript/JavaScript library that facilitates seamless interaction with a Framework backend. 
 
-<br />
-<p align="center">
-  <a href="https://github.com/nikkothari22/frappe-js-sdk"><img src="https://img.shields.io/maintenance/yes/2024?style=flat-square" /></a>
-  <a href="https://github.com/nikkothari22/frappe-js-sdk"><img src="https://img.shields.io/github/license/nikkothari22/frappe-js-sdk?style=flat-square" /></a>
-  <a href="https://www.npmjs.com/package/frappe-js-sdk"><img src="https://img.shields.io/npm/v/frappe-js-sdk?style=flat-square" /></a>
-    <a href="https://www.npmjs.com/package/frappe-js-sdk"><img src="https://img.shields.io/npm/dw/frappe-js-sdk?style=flat-square" /></a>
-</p>
+[Explore the Docs](https://grow.empress.eco/)
+·
+[Report Bug](https://github.com/empress-eco/Empress_js_sdk/issues)
+·
+[Request Feature](https://github.com/empress-eco/Empress_js_sdk/issues)
 
-## Features
+## About The Project
 
-The library currently supports the following features:
+Empress JS SDK is a powerful interface that enables effortless communication between your application and a Framework backend. This library simplifies operations like authentication, database manipulation, file upload, and API calls, allowing developers to focus on building the application while the SDK handles backend communication.
 
-- 🔐 Authentication - login with username and password (cookie based) + token based authentication
-- 🗄 Database - Get document, get list of documents, get count, create, update and delete documents
-- 📄 File upload
-- 🤙🏻 API calls
+### Key Features
+- Secure Authentication: Supports login with username and password (cookie based) and token-based authentication.
+- Comprehensive Database Operations: Perform CRUD operations and fetch document details effortlessly.
+- File Upload Capability: Upload files with ease.
+- API Call Support: Make API calls to your Empress backend seamlessly.
 
-We plan to add the following features in the future:
+The library utilizes the [Axios](https://axios-http.com) library for making API calls to your Empress backend. 
 
-- Support for common functions like `exists` in the database.
+## Technical Stack and Setup Instructions
 
-The library uses [Axios](https://axios-http.com) under the hood to make API calls to your Frappe backend.
+### Prerequisites
+Make sure you have npm installed on your machine. If not, follow the instructions [here](https://nodejs.org/en/download/).
 
-## Maintainers
+### Installation
+Use npm or yarn to install the Empress JS SDK library. Use the following commands to do so:
 
-| Maintainer     | GitHub                                          | Social                                                       |
-| -------------- | ----------------------------------------------- | ------------------------------------------------------------ |
-| Nikhil Kothari | [nikkothari22](https://github.com/nikkothari22) | [@nik_kothari22](https://twitter.com/nik_kothari22)          |
-| Janhvi Patil   | [janhvipatil](https://github.com/janhvipatil)   | [@janhvipatil_](https://twitter.com/janhvipatil_)           |
-| Sumit Jain     | [sumitjain236](https://github.com/sumitjain236) | [LinkedIn](https://www.linkedin.com/in/sumit-jain-66bb5719a) |
-
-## Installation
-
+With npm,
 ```bash
-npm install frappe-js-sdk
+npm install Empress-js-sdk
 ```
-
-or
-
+or with yarn,
 ```bash
-yarn add frappe-js-sdk
+yarn add Empress-js-sdk
 ```
-
-## Initialising the library
-
-To get started, initialise the library:
-
+### Initialization
+To get started, initialize the library with your Empress backend's URL:
 ```js
-import { FrappeApp } from 'frappe-js-sdk';
-//Add your Frappe backend's URL
-const frappe = new FrappeApp('https://test.frappe.cloud');
+import { EmpressApp } from 'Empress-js-sdk';
+const Empress = new EmpressApp('https://test.Empress.cloud');
 ```
-
-In case you want to use the library with token based authentication (OAuth bearer tokens or API key/secret pairs), you can initialise the library like this:
-
+For token-based authentication, initialize like this:
 ```js
-import { FrappeApp } from "frappe-js-sdk";
-
-const frappe = new FrappeApp("https://test.frappe.cloud", {
+import { EmpressApp } from "Empress-js-sdk";
+const Empress = new EmpressApp("https://test.Empress.cloud", {
     useToken: true,
-    // Pass a custom function that returns the token as a string - this could be fetched from LocalStorage or auth providers like Firebase, Auth0 etc.
     token: getTokenFromLocalStorage(),
-    // This can be "Bearer" or "token"
     type: "Bearer"
 })
 ```
 
-## Authentication
-
-#### Initialise the auth library
-
-```js
-const auth = frappe.auth()
-```
-
-#### Login a user:
-
-This makes an API call to the `/api/method/login` endpoint.
-
-```js
-auth
-  .loginWithUsernamePassword({ username: 'admin', password: 'my-password' })
-  .then((response) => console.log('Logged in'))
-  .catch((error) => console.error(error));
-```
-
-#### Get currently logged in user:
-
-This makes an API call to the `/api/method/frappe.auth.get_logged_user` endpoint.
-
-```js
-auth
-  .getLoggedInUser()
-  .then((user) => console.log(`User ${user} is logged in.`))
-  .catch((error) => console.error(error));
-```
-
-#### Logout:
-
-This makes an API call to the `/api/method/logout` endpoint.
-
-```js
-auth
-  .logout()
-  .then(() => console.log('Logged out.'))
-  .catch((error) => console.error(error));
-```
-
-#### Forget Password
-
-This makes an API sends a password reset link to the specified email address.
-
-```js
-auth
-  .forgetPassword('example@example.com')
-  .then(() => console.log('Password Reset Email Sent!'))
-  .catch(() => console.error("We couldn't find your account."));
-```
-
-## Database
-
-#### Initialise the database library
-
-```js
-const db = frappe.db();
-```
-
-#### Fetch document using document name
-
-```js
-db.getDoc('DocType', 'My DocType Name')
-  .then((doc) => console.log(doc))
-  .catch((error) => console.error(error));
-```
-
-#### Fetch list of documents
-
-```js
-db.getDocList('DocType')
-  .then((docs) => console.log(docs))
-  .catch((error) => console.error(error));
-```
-
-Optionally, a second argument can be provided to filter, sort, limit and paginate results.
-
-```js
-db.getDocList('DocType', {
-  /** Fields to be fetched */
-  fields: ['name', 'creation'],
-  /** Filters to be applied - SQL AND operation */
-  filters: [['creation', '>', '2021-10-09']],
-  /** Filters to be applied - SQL OR operation */
-  orFilters: [],
-  /** Fetch from nth document in filtered and sorted list. Used for pagination  */
-  limit_start: 5,
-  /** Number of documents to be fetched. Default is 20  */
-  limit: 10,
-  /** Sort results by field and order  */
-  orderBy: {
-    field: 'creation',
-    order: 'desc',
-  },
-  /** Group the results by particular field */
-  groupBy: 'name',
-  /** Fetch documents as a dictionary */
-  asDict: false,
-})
-  .then((docs) => console.log(docs))
-  .catch((error) => console.error(error));
-```
-
-Type declarations are available for the second argument in the source code.
-
-#### Fetch number of documents with filters
-
-```js
-const filters = [['creation', '>', '2021-10-09']];
-const useCache = true; /** Default is false - Optional **/
-const debug = false; /** Default is false - Optional **/
-
-db.getCount('DocType', filters, cache, debug)
-  .then((count) => console.log(count))
-  .catch((error) => console.error(error));
-```
-
-#### Create a document
-
-To create a new document, pass the name of the DocType and the fields to `createDoc`.
-
-```js
-db.createDoc('My Custom DocType', {
-  name: 'Test',
-  test_field: 'This is a test field',
-})
-  .then((doc) => console.log(doc))
-  .catch((error) => console.error(error));
-```
-
-#### Update a document
-
-To update an existing document, pass the name of the DocType, name of the document and the fields to be updated to `updateDoc`.
-
-```js
-db.updateDoc('My Custom DocType', 'Test', {
-  test_field: 'This is an updated test field.',
-})
-  .then((doc) => console.log(doc))
-  .catch((error) => console.error(error));
-```
-
-#### Delete a document
-
-To create a new document, pass the name of the DocType and the name of the document to be deleted to `deleteDoc`.
-
-```js
-db.deleteDoc('My Custom DocType', 'Test')
-  .then((response) => console.log(response.message)) // Message will be "ok"
-  .catch((error) => console.error(error));
-```
-
-## Usage with Typescript
-
-The library supports Typescript out of the box.
-For example, to enforce type on the `updateDoc` method:
-
-```ts
-interface TestDoc {
-  test_field: string;
-}
-db.updateDoc<TestDoc>('My Custom DocType', 'Test', {
-  test_field: 'This is an updated test field.',
-});
-```
-
-The library also has an inbuilt type `FrappeDoc` which adds the following fields to your type declarations when you use it with the database methods:
-
-```ts
-export type FrappeDoc<T> = T & {
-  /** User who created the document */
-  owner: string;
-  /** Date and time when the document was created - ISO format */
-  creation: string;
-  /** Date and time when the document was last modified - ISO format */
-  modified: string;
-  /** User who last modified the document */
-  modified_by: string;
-  idx: number;
-  /** 0 - Saved, 1 - Submitted, 2 - Cancelled */
-  docstatus: 0 | 1 | 2;
-  parent?: any;
-  parentfield?: any;
-  parenttype?: any;
-  /** The primary key of the DocType table */
-  name: string;
-};
-```
-
-All document responses are returned as an intersection of `FrappeDoc` and the specified type.
-
-## API Calls
-
-#### Initialise the call library
-
-```ts
-const call = frappe.call();
-```
-
-Make sure all endpoints are whitelisted (`@frappe.whitelist()`) in your backend
-
-#### GET request
-
-Make a GET request to your endpoint with parameters.
-
-```js
-const searchParams = {
-  doctype: 'Currency',
-  txt: 'IN',
-};
-call
-  .get('frappe.desk.search_link', searchParams)
-  .then((result) => console.log(result))
-  .catch((error) => console.error(error));
-```
-
-#### POST request
-
-Make a POST request to your endpoint with parameters.
-
-```js
-const updatedFields = {
-  doctype: 'User',
-  name: 'Administrator',
-  fieldname: 'interest',
-  value: 'Frappe Framework, ERPNext',
-};
-call
-  .post('frappe.client.set_value', updatedFields)
-  .then((result) => console.log(result))
-  .catch((error) => console.error(error));
-```
-
-#### PUT request
-
-Make a PUT request to your endpoint with parameters.
-
-```js
-const updatedFields = {
-  doctype: 'User',
-  name: 'Administrator',
-  fieldname: 'interest',
-  value: 'Frappe Framework, ERPNext',
-};
-call
-  .put('frappe.client.set_value', updatedFields)
-  .then((result) => console.log(result))
-  .catch((error) => console.error(error));
-```
-
-#### DELETE request
-
-Make a DELETE request to your endpoint with parameters.
-
-```js
-const documentToBeDeleted = {
-  doctype: 'Tag',
-  name: 'Random Tag',
-};
-call
-  .put('frappe.client.delete', documentToBeDeleted)
-  .then((result) => console.log(result))
-  .catch((error) => console.error(error));
-```
-
-## File Uploads
-
-#### Initialise the file library
-
-```ts
-const file = frappe.file();
-```
-
-#### Upload a file with on progress callback
-
-```js
-const myFile; //Your File object
-
-const fileArgs = {
-  /** If the file access is private then set to TRUE (optional) */
-  "isPrivate": true,
-  /** Folder the file exists in (optional) */
-  "folder": "Home",
-  /** File URL (optional) */
-  "file_url": "",
-  /** Doctype associated with the file (optional) */
-  "doctype": "User",
-  /** Docname associated with the file (mandatory if doctype is present) */
-  "docname": "Administrator",
-  /** Field in the document **/
-  "fieldname": "image"
-}
-
-file.uploadFile(
-            myFile,
-            fileArgs,
-            /** Progress Indicator callback function **/
-            (completedBytes, totalBytes) => console.log(Math.round((completedBytes / totalBytes) * 100), " completed")
-        )
-        .then(() => console.log("File Upload complete"))
-        .catch(e => console.error(e))
-```
-
-## License
-
-See [LICENSE](./LICENSE).
+## Usage
+For detailed usage instructions and examples, please refer to our [documentation](https://grow.empress.eco/).
+
+## Contribution Guidelines
+We welcome and appreciate contributions from the community. Here's how you can contribute:
+- Fork the project
+- Create your feature branch (`git checkout -b feature/AmazingFeature`)
+- Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+- Push to the branch (`git push origin feature/AmazingFeature`)
+- Open a pull request
+
+## License and Acknowledgements
+
+### License
+This project is under the [MIT License](https://github.com/empress-eco/Empress_js_sdk/blob/main/LICENSE). Your contributions are also licensed under the MIT License.
+
+### Acknowledgements
+- A big thank you to our maintainers: [Nikhil Kothari](https://github.com/nikkothari22), [Janhvi Patil](https://github.com/janhvipatil), and [Sumit Jain](https://github.com/sumitjain236) for their continuous contributions and support.
+- Special thanks to [Axios](https://axios-http.com/) for making our API calls smooth and efficient.
+- We are profoundly grateful to the Empress Community, the architects behind the essential tools that power this project. Their innovation and dedication have been instrumental in building the foundations and functionalities we rely on.
