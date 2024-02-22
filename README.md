@@ -1,5 +1,8 @@
+<div align="center">
+
+<img src="https://grow.empress.eco/uploads/default/original/2X/1/1f1e1044d3864269d2a613577edb9763890422ab.png" alt="Logo" width="80" height="80">
+
 # Empress JS SDK: The Ultimate Bridge to Framework Backend
-![Empress JS SDK Logo](https://grow.empress.eco/uploads/default/original/2X/1/1f1e1044d3864269d2a613577edb9763890422ab.png
 
 Welcome to the Empress JS SDK, a robust TypeScript/JavaScript library that facilitates seamless interaction with a Framework backend. 
 
@@ -8,6 +11,9 @@ Welcome to the Empress JS SDK, a robust TypeScript/JavaScript library that facil
 [Report Bug](https://github.com/empress-eco/Empress_js_sdk/issues)
 ·
 [Request Feature](https://github.com/empress-eco/Empress_js_sdk/issues)
+
+</div>
+
 
 ## About The Project
 
